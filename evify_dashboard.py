@@ -57,7 +57,7 @@ def soc_color(soc):
 # ─────────────────────────────────────────────────────────────────────────────
 #  DATA LOADING
 # ─────────────────────────────────────────────────────────────────────────────
-DATA_PATH = os.path.join(os.path.dirname(__file__), "evify data 2.0", "evify_training_data.csv")
+DATA_PATH = os.path.join(os.path.dirname(__file__), "evify_data_2.0", "evify_training_data.csv")
 
 @st.cache_data
 def load_evify_data():
