@@ -79,8 +79,8 @@ SEQ_LEN = 20
 # ─────────────────────────────────────────────────────────────────────────────
 #  DATA & MODEL LOADING CACHE
 # ─────────────────────────────────────────────────────────────────────────────
-ROOT_DIR   = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-DATA_PATH  = os.path.join(os.path.dirname(__file__), "evify_data_2.0", "evify_training_data.csv")
+ROOT_DIR   = os.path.dirname(__file__)
+DATA_PATH  = os.path.join(ROOT_DIR, "evify_data_2.0", "evify_training_data.csv")
 MODEL_DIR  = os.path.join(ROOT_DIR, "aicodeold", "model_training", "v4")
 
 @st.cache_resource
