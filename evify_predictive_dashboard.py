@@ -79,8 +79,9 @@ SEQ_LEN = 20
 # ─────────────────────────────────────────────────────────────────────────────
 #  DATA & MODEL LOADING CACHE
 # ─────────────────────────────────────────────────────────────────────────────
-ROOT_DIR   = os.path.dirname(__file__)
-DATA_PATH  = os.path.join(ROOT_DIR, "evify_data_2.0", "evify_training_data.csv")
+THIS_DIR   = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR   = os.path.dirname(os.path.dirname(THIS_DIR))
+DATA_PATH  = os.path.join(THIS_DIR, "evify_data_2.0", "evify_training_data.csv")
 MODEL_DIR  = os.path.join(ROOT_DIR, "aicodeold", "model_training", "v4")
 
 @st.cache_resource
@@ -243,16 +244,21 @@ st.markdown(f'<div style="color:{DIM};">LSTM evaluating 100 minutes of thermodyn
 st.divider()
 
 col1, col2, col3, col4 = st.columns(4)
+
+actual_range_km = actual_soc * 0.85 * (cur_row['soh'] / 100.0)
+predicted_range_km = predicted_next_soc * 0.85 * (cur_row['soh'] / 100.0)
+
 with col1:
-    st.markdown(f'<div class="kpi-card"><div class="kpi-lbl">Current SOC (Reality)</div><div class="kpi-val" style="color:#fff;">{actual_soc:.1f}%</div></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="kpi-card"><div class="kpi-lbl">Current SOC (Reality)</div><div class="kpi-val" style="color:#fff;">{actual_soc:.1f}%</div><div style="font-size:11px;color:{DIM}">Est. Range: {actual_range_km:.1f} km</div></div>', unsafe_allow_html=True)
 with col2:
     st.markdown(f'<div class="kpi-card"><div class="kpi-lbl">AI Predicted Shift (5m)</div><div class="kpi-val">{pred_delta:+.2f}%</div></div>', unsafe_allow_html=True)
 with col3:
-    st.markdown(f'<div class="kpi-card"><div class="kpi-lbl">AI Predicted Next SOC</div><div class="kpi-val">{predicted_next_soc:.1f}%</div></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="kpi-card"><div class="kpi-lbl">AI Predicted Next SOC</div><div class="kpi-val">{predicted_next_soc:.1f}%</div><div style="font-size:11px;color:{MAGENTA}">Predicted Range: {predicted_range_km:.1f} km</div></div>', unsafe_allow_html=True)
 with col4:
     if true_next_soc is not None:
+        true_range_km = true_next_soc * 0.85 * (cur_row['soh'] / 100.0)
         error = abs(predicted_next_soc - true_next_soc)
-        st.markdown(f'<div class="kpi-card"><div class="kpi-lbl">True Next SOC (Spoilers)</div><div class="kpi-val" style="color:{GREEN}">{true_next_soc:.1f}%</div><div style="font-size:11px;color:{DIM}">AI Error: {error:.2f}%</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="kpi-card"><div class="kpi-lbl">True Next SOC (Spoilers)</div><div class="kpi-val" style="color:{GREEN}">{true_next_soc:.1f}%</div><div style="font-size:11px;color:{DIM}">True Range: {true_range_km:.1f} km | Error: {error:.2f}%</div></div>', unsafe_allow_html=True)
     else:
         st.markdown(f'<div class="kpi-card"><div class="kpi-lbl">Future True SOC</div><div class="kpi-val" style="color:{DIM}">Unknown</div></div>', unsafe_allow_html=True)
 
