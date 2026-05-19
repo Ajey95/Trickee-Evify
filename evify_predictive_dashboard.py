@@ -81,7 +81,7 @@ SEQ_LEN = 20
 # ─────────────────────────────────────────────────────────────────────────────
 THIS_DIR   = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH  = os.path.join(THIS_DIR, "evify_data_2.0", "evify_training_data.csv")
-MODEL_DIR  = os.path.join(THIS_DIR, "models")
+MODEL_DIR  = os.path.join(THIS_DIR, "aicodeold", "model_training", "v4")
 
 @st.cache_resource
 def load_ai_engine():
